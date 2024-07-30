@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Level Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-y: auto;
+            max-height: 90vh; /* Ensures the container fits within the viewport */
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        select, input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .question-group {
+            margin-bottom: 20px;
+        }
+        .question-group label {
+            display: block;
+            font-weight: bold;
+        }
+        .question-group select {
+            width: 100%;
+        }
+        .options-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .options-group label {
+            display: flex;
+            align-items: center;
+        }
+        .options-group input[type="radio"] {
+            margin-right: 5px;
+        }
+        .result {
+            text-align: center;
+            font-size: 18px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Predict Your Stress Level</h1>
+        <form action="/predict" method="post">
+            <div class="question-group">
+                <label for="Gender">1. Giới tính:</label>
+                <select id="Gender" name="Gender" required>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    <option value="Khác">Khác</option>
+                </select>
+            </div>
+            
+            <div class="question-group">
+                <label for="YearInUni">2. Bạn là sinh viên năm mấy?</label>
+                <select id="YearInUni" name="YearInUni" required>
+                    <option value="Năm 1">Năm 1</option>
+                    <option value="Năm 2">Năm 2</option>
+                    <option value="Năm 3">Năm 3</option>
+                    <option value="Năm 4">Năm 4</option>
+                </select>
+            </div>
+
+            <div class="question-group">
+                <label for="Major">3. Khối ngành của bạn là gì?</label>
+                <select id="Major" name="Major" required>
+                    <option value="Kinh Tế">Khối ngành Kinh tế</option>
+                    <option value="MT-NT">Khối ngành Mỹ thuật - Nghệ thuật</option>
+                    <option value="XHNV">Khối ngành Xã hội Nhân văn</option>
+                    <option value="Sức khỏe">Khối ngành Sức khỏe</option>
+                    <option value="Kỹ Thuật-Công Nghệ">Khối ngành Kỹ thuật - Công nghệ</option>
+                    <option value="Other">Khác</option>
+                </select>
+            </div>
+
+            <div class="question-group">
+                <label for="Subsidize">4. Bạn có hài lòng với số tiền nhận được từ gia đình mỗi tháng không? (1-5):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="Subsidize" value="1" required> Rất không hài lòng</label>
+                    <label><input type="radio" name="Subsidize" value="2"> Không hài lòng</label>
+                    <label><input type="radio" name="Subsidize" value="3"> Bình thường</label>
+                    <label><input type="radio" name="Subsidize" value="4"> Hài lòng</label>
+                    <label><input type="radio" name="Subsidize" value="5"> Rất hài lòng</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="LackMoneyProblem">5. Bạn có cố gắng khắc phục khi thiếu tiền không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="LackMoneyProblem" value="1" required> Không bao giờ</label>
+                    <label><input type="radio" name="LackMoneyProblem" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="LackMoneyProblem" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="LackMoneyProblem" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="SatisfiedWithGPA">6. Bạn có hài lòng với điểm trung bình (CGPA) của mình không? (1-5):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="SatisfiedWithGPA" value="1" required> Rất không hài lòng</label>
+                    <label><input type="radio" name="SatisfiedWithGPA" value="2"> Không hài lòng</label>
+                    <label><input type="radio" name="SatisfiedWithGPA" value="3"> Bình thường</label>
+                    <label><input type="radio" name="SatisfiedWithGPA" value="4"> Hài lòng</label>
+                    <label><input type="radio" name="SatisfiedWithGPA" value="5"> Rất hài lòng</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="PressureFromFrsGPA">7. Bạn có áp lực với điểm trung bình (CGPA) của bạn bè không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="PressureFromFrsGPA" value="1" required> Không áp lực</label>
+                    <label><input type="radio" name="PressureFromFrsGPA" value="2"> Hơi áp lực</label>
+                    <label><input type="radio" name="PressureFromFrsGPA" value="3"> Áp lực</label>
+                    <label><input type="radio" name="PressureFromFrsGPA" value="4"> Rất áp lực</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="WorryAbWork">8. Khi bắt đầu một công việc, bạn có lo lắng về nó cho đến khi hoàn thành không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="WorryAbWork" value="1" required> Không bao giờ</label>
+                    <label><input type="radio" name="WorryAbWork" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="WorryAbWork" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="WorryAbWork" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="SleepQuality">9. Bạn có thể ngủ ngon giấc vào ban đêm không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="SleepQuality" value="1" required> Không bao giờ</label>
+                    <label><input type="radio" name="SleepQuality" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="SleepQuality" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="SleepQuality" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="FearLosingLoveOnes">10. Bạn có lo sợ người thân sẽ rời bỏ bạn không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="FearLosingLoveOnes" value="1" required> Không bao giờ</label>
+                    <label><input type="radio" name="FearLosingLoveOnes" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="FearLosingLoveOnes" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="FearLosingLoveOnes" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="NegativeThought">11. Trong 3 tuần qua, bạn có suy nghĩ tiêu cực về bản thân hoặc tương lai của mình không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="NegativeThought" value="1" required> Không bao giờ</label>
+                    <label><input type="radio" name="NegativeThought" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="NegativeThought" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="NegativeThought" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="LossOfAppetile">12. Gần đây, bạn có cảm thấy chán ăn không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="LossOfAppetile" value="1" required> Không bao giờ</label>
+                    <label><input type="radio" name="LossOfAppetile" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="LossOfAppetile" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="LossOfAppetile" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="BeAddicted">13. Bạn có nghiện bất kỳ chất gây nghiện nào hoặc hút thuốc thường xuyên không? (1-4):</label>
+                <div class="options-group">
+                    <label><input type="radio" name="BeAddicted" value="1" required> Không bao giờ</label>
+                    <label><input type="radio" name="BeAddicted" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="BeAddicted" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="BeAddicted" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+
+            <input type="submit" value="Predict">
+        </form>
+        {% if prediction_text %}
+        <div class="result">
+            <h2>{{ prediction_text }}</h2>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
