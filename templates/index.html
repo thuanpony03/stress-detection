@@ -80,6 +80,13 @@
             font-size: 18px;
             color: #4CAF50;
         }
+        .recommendation {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            background-color: #e7f9e7;
+        }
     </style>
 </head>
 <body>
@@ -225,6 +232,11 @@
         <div class="result">
             <h2>{{ prediction_text }}</h2>
         </div>
+        {% endif %}
+        {% if recommendation_text %}
+            <div class="recommendation">
+                <p>{{ recommendation_text|safe }}</p>
+            </div>
         {% endif %}
     </div>
 </body>
